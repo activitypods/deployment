@@ -22,7 +22,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       default:
-        ipv4_address: 172.20.0.10 # Fix Traefik IP to be able to map it on the backend
+        ipv4_address: 172.20.5.10 # Fix Traefik IP to be able to map it on the backend
 
   fuseki:
     image: semapps/jena-fuseki-webacl
@@ -59,7 +59,7 @@ services:
     # Redirect backend calls to Traefik container
     # Required to allow the backend to "fetch itself"
     extra_hosts:
-      - "${BACKEND_DOMAIN_NAME}:172.20.0.10"
+      - "${BACKEND_DOMAIN_NAME}:172.20.5.10"
 
   activitypods-frontend:
     image: activitypods/frontend
@@ -104,3 +104,5 @@ networks:
     ipam:
       config:
         - subnet: 172.20.0.0/16
+          ip_range: 172.20.5.0/24
+          gateway: 172.20.5.254
