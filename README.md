@@ -14,4 +14,6 @@ https://docs.activitypods.org/tutorials/deploy-your-own-pod-provider/
 
 `make config` Prints the config with the `.env`-file-provided environment variables filled.
 
+`make logs` Display the logs of the ActivityPods backend.
+
 `make attach` Attaches to the [Moleculer](https://moleculer.services/) CLI of the ActivityPods backend.

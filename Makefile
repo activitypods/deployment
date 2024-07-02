@@ -11,6 +11,10 @@ stop:
 
 # Maintainance
 
+upgrade:
+	$(DOCKER_COMPOSE_PROD) pull
+	$(DOCKER_COMPOSE_PROD) up -d
+
 logs:
 	$(DOCKER_COMPOSE_PROD) logs -f activitypods-backend
 
