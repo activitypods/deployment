@@ -83,6 +83,9 @@ services:
     volumes:
       - ./data/redis:/data:z
     command: ['redis-server', '--appendonly', 'yes']
+    networks:
+      default:
+        ipv4_address: 172.20.5.11 # Fix Redis IP to make it easier to find it with a GUI
 
   arena:
     image: activitypods/arena
