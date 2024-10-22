@@ -78,28 +78,6 @@ services:
     environment:
       REACT_APP_CONFIG_URL: 'https://${BACKEND_DOMAIN_NAME}/.well-known/config.js'
 
-  # See https://github.com/prometheus/node_exporter?tab=readme-ov-file#docker
-  node-exporter:
-    image: quay.io/prometheus/node-exporter:latest
-    restart: unless-stopped
-    command:
-      - '--path.rootfs=/host'
-    pid: host
-    volumes:
-      - '/:/host:ro,rslave'
-    network_mode: host
-
-  # See https://prometheus.io/docs/guides/cadvisor/
-  cadvisor:
-    image: gcr.io/cadvisor/cadvisor:latest
-    ports:
-      - 8090:8080
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:rw
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
-
   redis:
     image: redis
     expose:
@@ -124,6 +102,30 @@ services:
       - '4567'
     environment:
       REDIS_HOST: 'redis'
+
+  # For Promotheus monitoring
+  # See https://github.com/prometheus/node_exporter?tab=readme-ov-file#docker
+  node-exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    restart: unless-stopped
+    command:
+      - '--path.rootfs=/host'
+    pid: host
+    volumes:
+      - '/:/host:ro,rslave'
+    network_mode: host
+
+  # For Promotheus monitoring
+  # See https://prometheus.io/docs/guides/cadvisor/
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    ports:
+      - 8090:8080
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
 
 networks:
   default:
