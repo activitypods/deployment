@@ -22,7 +22,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       default:
-        ipv4_address: 172.20.5.10 # Fix Traefik IP to be able to map it on the backend
+        aliases:
+          - $BACKEND_DOMAIN_NAME
 
   fuseki:
     image: semapps/jena-fuseki-webacl
@@ -41,6 +42,7 @@ services:
       - fuseki
       - redis
     volumes:
+      - ./data/backend/actors:/app/backend/actors
       - ./data/backend/logs:/app/backend/logs
       - ./data/backend/jwt:/app/backend/jwt
       - ./data/backend/uploads:/app/backend/uploads
@@ -75,6 +77,28 @@ services:
       - 'traefik.http.routers.frontend.tls.certresolver=myresolver'
     environment:
       REACT_APP_CONFIG_URL: 'https://${BACKEND_DOMAIN_NAME}/.well-known/config.js'
+
+  # See https://github.com/prometheus/node_exporter?tab=readme-ov-file#docker
+  node-exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    restart: unless-stopped
+    command:
+      - '--path.rootfs=/host'
+    pid: host
+    volumes:
+      - '/:/host:ro,rslave'
+    network_mode: host
+
+  # See https://prometheus.io/docs/guides/cadvisor/
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    ports:
+      - 8090:8080
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
 
   redis:
     image: redis
