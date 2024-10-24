@@ -3,6 +3,9 @@ services:
     image: traefik:v2.3
     command:
       - '--api.insecure=true'
+      - '--metrics'
+      - '--metrics.prometheus=true'
+      - '--metrics.prometheus.buckets=0.1,0.3,1.2,5.0'
       - '--providers.docker=true'
       - '--providers.docker.exposedbydefault=false'
       - '--entrypoints.web.address=:80'
@@ -80,7 +83,7 @@ services:
       - '6379'
     volumes:
       - ./data/redis:/data:z
-    command: ['redis-server', '--appendonly', 'yes']
+    command: [ 'redis-server', '--appendonly', 'yes' ]
     networks:
       default:
         ipv4_address: 172.20.5.11 # Fix Redis IP to make it easier to find it with a GUI
