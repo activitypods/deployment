@@ -58,10 +58,6 @@ services:
       - .env.backend
       - path: .env.backend.local
         required: false
-    # Redirect backend calls to Traefik container
-    # Required to allow the backend to "fetch itself"
-    extra_hosts:
-      - "${BACKEND_DOMAIN_NAME}:172.20.5.10"
 
   activitypods-frontend:
     image: activitypods/frontend
