@@ -13,7 +13,7 @@ cd $SCRIPT_DIR
 # Stop all containers including Fuseki
 docker compose down
 
-docker run --volume="$(SCRIPT_DIR)"/data/fuseki:/fuseki --entrypoint=/docker-compact-entrypoint.sh semapps/jena-fuseki-webacl
+docker run --volume="$SCRIPT_DIR"/data/fuseki:/fuseki --entrypoint=/docker-compact-entrypoint.sh semapps/jena-fuseki-webacl
 
 docker compose up -d
 
