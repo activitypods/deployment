@@ -34,6 +34,20 @@
       "host": "redis",
       "port": 6379,
       "db": 1
+    },
+    {
+      "name": "webhookPost",
+      "hostId": "deleteDataset",
+      "host": "redis",
+      "port": 6379,
+      "db": 1
+    },
+    {
+      "name": "webhookPost",
+      "hostId": "deleteAccountInfo",
+      "host": "redis",
+      "port": 6379,
+      "db": 1
     }
   ]
 }
