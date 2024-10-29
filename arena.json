@@ -36,15 +36,15 @@
       "db": 1
     },
     {
-      "name": "webhookPost",
-      "hostId": "deleteDataset",
+      "name": "deleteDataset",
+      "hostId": "activitypods",
       "host": "redis",
       "port": 6379,
       "db": 1
     },
     {
-      "name": "webhookPost",
-      "hostId": "deleteAccountInfo",
+      "name": "deleteAccountInfo",
+      "hostId": "activitypods",
       "host": "redis",
       "port": 6379,
       "db": 1
