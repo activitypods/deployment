@@ -38,6 +38,10 @@ services:
       - '3030'
     environment:
       ADMIN_PASSWORD: ${FUSEKI_PASSWORD}
+    healthcheck:
+      test: curl --fail http://localhost:3030 || exit 1
+      interval: 1s
+      timeout: 1s
 
   activitypods-backend:
     image: activitypods/backend
@@ -101,6 +105,15 @@ services:
       - '4567'
     environment:
       REDIS_HOST: 'redis'
+
+  tripleadmin:
+    image: mguihal/tripleadmin
+    depends_on:
+      - fuseki
+    ports:
+      - '3033:3033'
+    extra_hosts:
+      - 'localhost:host-gateway'
 
   # For Promotheus monitoring
   # See https://github.com/prometheus/node_exporter?tab=readme-ov-file#docker
