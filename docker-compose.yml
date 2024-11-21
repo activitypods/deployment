@@ -38,6 +38,7 @@ services:
       - '3030'
     environment:
       ADMIN_PASSWORD: ${FUSEKI_PASSWORD}
+    restart: unless-stopped
     healthcheck:
       test: curl --fail http://localhost:3030 || exit 1
       interval: 1s
