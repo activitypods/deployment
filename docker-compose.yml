@@ -93,6 +93,7 @@ services:
       default:
         ipv4_address: 172.20.5.11 # Fix Redis IP to make it easier to find it with a GUI
 
+  # Automatically enable vm.overcommit_memory on host to remove Redis warnings
   # https://medium.com/@akhshyganesh/redis-enabling-memory-overcommit-is-a-crucial-configuration-68dbb77dae5f
   redis-overcommit:
     build: https://github.com/bkuhl/redis-overcommit-on-host.git
