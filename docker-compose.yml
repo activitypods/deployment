@@ -84,6 +84,7 @@ services:
 
   redis:
     image: redis
+    restart: unless-stopped
     expose:
       - '6379'
     volumes:
