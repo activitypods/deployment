@@ -2,6 +2,7 @@ services:
   traefik:
     image: traefik:v2.3
     command:
+      - '--api.dashboard=true'
       - '--api.insecure=true'
       # - '--metrics'
       # - '--metrics.prometheus=true'
@@ -27,6 +28,8 @@ services:
       default:
         aliases:
           - $BACKEND_DOMAIN_NAME
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   fuseki:
     image: semapps/jena-fuseki-webacl
@@ -142,9 +145,10 @@ services:
     pid: host
     volumes:
       - '/:/host:ro,rslave'
-    ports:
-      - '9100:9100'
     network_mode: host
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.services.node-exporter.loadbalancer.server.port=9100'
 
   # For Promotheus monitoring
   # See https://prometheus.io/docs/guides/cadvisor/
