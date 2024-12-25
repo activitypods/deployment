@@ -3,7 +3,7 @@ DOCKER_COMPOSE_PROD=docker compose --env-file .env --env-file .env.local
 # Build and start
 
 start: 
-	$(DOCKER_COMPOSE_PROD) up -d --wait
+	$(DOCKER_COMPOSE_PROD) up -d
 
 stop:
 	$(DOCKER_COMPOSE_PROD) kill
@@ -13,7 +13,7 @@ stop:
 
 upgrade:
 	$(DOCKER_COMPOSE_PROD) pull
-	$(DOCKER_COMPOSE_PROD) up -d --wait
+	$(DOCKER_COMPOSE_PROD) up -d
 
 logs:
 	$(DOCKER_COMPOSE_PROD) logs -f activitypods-backend
