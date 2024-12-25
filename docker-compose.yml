@@ -142,6 +142,8 @@ services:
     pid: host
     volumes:
       - '/:/host:ro,rslave'
+    ports:
+      - '9100:9100'
     network_mode: host
 
   # For Promotheus monitoring
