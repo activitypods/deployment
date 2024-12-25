@@ -41,8 +41,6 @@ services:
     restart: unless-stopped
     healthcheck:
       test: curl --fail http://localhost:3030 || exit 1
-      interval: 1s
-      timeout: 1s
 
   activitypods-backend:
     image: activitypods/backend
