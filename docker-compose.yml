@@ -47,8 +47,10 @@ services:
   activitypods-backend:
     image: activitypods/backend
     depends_on:
-      - fuseki
-      - redis
+      fuseki:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     volumes:
       - ./data/backend/actors:/app/backend/actors
       - ./data/backend/logs:/app/backend/logs
@@ -66,6 +68,10 @@ services:
       - .env.backend
       - path: .env.backend.local
         required: false
+    # healthcheck:
+    #   test: curl --fail http://localhost:3000/.well-known/solid || exit 1
+    #   interval: 1s
+    #   timeout: 1s
 
   activitypods-frontend:
     image: activitypods/frontend
@@ -90,6 +96,8 @@ services:
     volumes:
       - ./data/redis:/data:z
     command: [ 'redis-server', '--appendonly', 'yes' ]
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
     networks:
       default:
         ipv4_address: 172.20.5.11 # Fix Redis IP to make it easier to find it with a GUI
