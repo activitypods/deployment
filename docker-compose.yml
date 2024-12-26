@@ -4,9 +4,9 @@ services:
     command:
       - '--api.dashboard=true'
       - '--api.insecure=true'
-      # - '--metrics'
-      # - '--metrics.prometheus=true'
-      # - '--metrics.prometheus.buckets=0.1,0.3,1.2,5.0'
+      - '--metrics'
+      - '--metrics.prometheus=true'
+      - '--metrics.prometheus.buckets=0.1,0.3,1.2,5.0'
       - '--providers.docker=true'
       - '--providers.docker.exposedbydefault=false'
       - '--entrypoints.web.address=:80'
@@ -28,8 +28,6 @@ services:
       default:
         aliases:
           - $BACKEND_DOMAIN_NAME
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
 
   fuseki:
     image: semapps/jena-fuseki-webacl
@@ -69,10 +67,6 @@ services:
       - .env.backend
       - path: .env.backend.local
         required: false
-    # healthcheck:
-    #   test: curl --fail http://localhost:3000/.well-known/solid || exit 1
-    #   interval: 1s
-    #   timeout: 1s
 
   activitypods-frontend:
     image: activitypods/frontend
@@ -98,7 +92,7 @@ services:
       - ./data/redis:/data:z
     command: [ 'redis-server', '--appendonly', 'yes' ]
     healthcheck:
-      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
     networks:
       default:
         ipv4_address: 172.20.5.11 # Fix Redis IP to make it easier to find it with a GUI
@@ -146,9 +140,6 @@ services:
     volumes:
       - '/:/host:ro,rslave'
     network_mode: host
-    labels:
-      - 'traefik.enable=true'
-      - 'traefik.http.services.node-exporter.loadbalancer.server.port=9100'
 
   # For Promotheus monitoring
   # See https://prometheus.io/docs/guides/cadvisor/
