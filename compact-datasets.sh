@@ -15,6 +15,6 @@ docker compose down
 
 docker run --volume="$SCRIPT_DIR"/data/fuseki:/fuseki --entrypoint=/docker-compact-entrypoint.sh semapps/jena-fuseki-webacl
 
-docker compose up -d
+docker compose --env-file .env --env-file .env.local up -d
 
 echo "Cron job finished at" $(date)
