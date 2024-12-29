@@ -9,7 +9,7 @@ stop:
 	$(DOCKER_COMPOSE_PROD) kill
 	$(DOCKER_COMPOSE_PROD) rm -fv
 
-# Maintainance
+# Maintenance
 
 upgrade:
 	$(DOCKER_COMPOSE_PROD) pull
