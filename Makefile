@@ -1,4 +1,4 @@
-DOCKER_COMPOSE_PROD=docker compose --env-file .env --env-file .env.local
+DOCKER_COMPOSE_PROD=docker compose
 
 # Build and start
 
