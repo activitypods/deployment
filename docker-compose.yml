@@ -48,10 +48,8 @@ services:
     depends_on:
       fuseki:
         condition: service_healthy
-        restart: false
       redis:
         condition: service_healthy
-        restart: false
     volumes:
       - ./data/backend/actors:/app/backend/actors
       - ./data/backend/logs:/app/backend/logs
