@@ -130,7 +130,7 @@ services:
       - 'localhost:host-gateway'
     environment:
       - TRIPLEADMIN_HOST=http://localhost:3030/
-      - TRIPLEADMIN_USER=admin
+      - TRIPLEADMIN_USERNAME=admin
 
   # For Promotheus monitoring
   # See https://github.com/prometheus/node_exporter?tab=readme-ov-file#docker
