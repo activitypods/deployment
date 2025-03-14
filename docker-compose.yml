@@ -72,7 +72,7 @@ services:
     image: activitypods/frontend
     depends_on:
       - activitypods-backend
-    restart: always
+    restart: unless-stopped
     expose:
       - '5000'
     labels:
@@ -108,7 +108,7 @@ services:
 
   arena:
     image: activitypods/arena
-    restart: always
+    restart: unless-stopped
     volumes:
       - ./arena.json:/opt/arena/src/server/config/index.json
     depends_on:
