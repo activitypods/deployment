@@ -81,7 +81,7 @@ services:
       - 'traefik.http.routers.frontend.entrypoints=websecure'
       - 'traefik.http.routers.frontend.tls.certresolver=myresolver'
     environment:
-      REACT_APP_CONFIG_URL: 'https://${BACKEND_DOMAIN_NAME}/.well-known/config.js'
+      VITE_CONFIG_URL: 'https://${BACKEND_DOMAIN_NAME}/.well-known/config.js'
 
   redis:
     image: redis
