@@ -30,7 +30,11 @@ services:
           - $BACKEND_DOMAIN_NAME
 
   fuseki:
-    image: semapps/jena-fuseki-webacl
+    image: semapps/jena-fuseki-webacl:${FUSEKI_VERSION:-v1.0.1}
+    # Since v1.0.1 the JVM heap is sized from this limit (65% of it, the rest being
+    # needed for the TDB2 memory-mapped files). Without a limit, the heap is sized
+    # from the host memory and Fuseki can starve the other containers.
+    mem_limit: ${FUSEKI_MEMORY_LIMIT:-4g}
     volumes:
       - ./data/fuseki:/fuseki
     ports:
@@ -39,12 +43,15 @@ services:
       - '3030'
     environment:
       ADMIN_PASSWORD: ${FUSEKI_PASSWORD}
+      # Leave empty to use the defaults described above (e.g. "-Xmx3g" to force a heap size)
+      JVM_ARGS: ${FUSEKI_JVM_ARGS:-}
     restart: unless-stopped
     healthcheck:
       test: curl --fail http://localhost:3030 || exit 1
 
   activitypods-backend:
-    image: activitypods/backend
+    image: activitypods/backend:${ACTIVITYPODS_VERSION:-latest}
+    restart: unless-stopped
     depends_on:
       fuseki:
         condition: service_healthy
@@ -69,7 +76,7 @@ services:
         required: false
 
   activitypods-frontend:
-    image: activitypods/frontend
+    image: activitypods/frontend:${ACTIVITYPODS_VERSION:-latest}
     depends_on:
       - activitypods-backend
     restart: unless-stopped
@@ -82,6 +89,8 @@ services:
       - 'traefik.http.routers.frontend.tls.certresolver=myresolver'
     environment:
       VITE_CONFIG_URL: 'https://${BACKEND_DOMAIN_NAME}/.well-known/config.js'
+      # Read instead of VITE_CONFIG_URL by the frontend of ActivityPods 2.2 and below
+      REACT_APP_CONFIG_URL: 'https://${BACKEND_DOMAIN_NAME}/.well-known/config.js'
 
   redis:
     image: redis

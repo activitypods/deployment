@@ -13,7 +13,9 @@ cd $SCRIPT_DIR
 # Stop all containers including Fuseki
 docker compose down
 
-docker run --volume="$SCRIPT_DIR"/data/fuseki:/fuseki --entrypoint=/docker-compact-entrypoint.sh semapps/jena-fuseki-webacl
+# Use the Fuseki service as defined in docker-compose.yml, so that the compaction runs with
+# the same image version, volume and memory limit as the triplestore itself
+docker compose run --rm --no-deps --entrypoint=/docker-compact-entrypoint.sh fuseki
 
 docker compose up -d
 
