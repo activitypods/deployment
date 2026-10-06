@@ -27,3 +27,7 @@ The ActivityPods and Fuseki versions are pinned in `.env` (see `.env.example`): 
 1. Back up the `data/` directory (stop the containers first, so that Fuseki's files are consistent).
 2. `git pull`, then set the new `ACTIVITYPODS_VERSION` in `.env`, then `make upgrade`.
 3. If the new version comes with a migration, run it from the Moleculer CLI (`make attach`), e.g. `call migration-2-2-0.migrate --username *` for 2.2.0, and check the logs for `Unable to migrate Pod` errors.
+
+## Debug tools
+
+Fuseki (3030), tripleadmin (3033), the Traefik dashboard (8080), Arena (4567) and cAdvisor (8090) are only published on the server's localhost. Reach them through an SSH tunnel, e.g. `ssh -L 3030:localhost:3030 -L 3033:localhost:3033 user@server`, then open http://localhost:3033.

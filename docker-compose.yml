@@ -20,7 +20,7 @@ services:
     ports:
       - '80:80'
       - '443:443'
-      - '8080:8080'
+      - '127.0.0.1:8080:8080'
     volumes:
       - ./data/letsencrypt:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -37,10 +37,15 @@ services:
     mem_limit: ${FUSEKI_MEMORY_LIMIT:-4g}
     volumes:
       - ./data/fuseki:/fuseki
+    # Debug ports are only published on localhost, use an SSH tunnel to reach them
+    # (e.g. ssh -L 3030:localhost:3030 user@server)
     ports:
-      - '3030:3030'
+      - '127.0.0.1:3030:3030'
     expose:
       - '3030'
+    # Docker 28+ gives containers a huge nofile limit, which old JVMs fail to allocate
+    ulimits:
+      nofile: 65536
     environment:
       ADMIN_PASSWORD: ${FUSEKI_PASSWORD}
       # Leave empty to use the defaults described above (e.g. "-Xmx3g" to force a heap size)
@@ -123,7 +128,7 @@ services:
     depends_on:
       - redis
     ports:
-      - '4567:4567'
+      - '127.0.0.1:4567:4567'
     expose:
       - '4567'
     environment:
@@ -134,11 +139,10 @@ services:
     depends_on:
       - fuseki
     ports:
-      - '3033:3033'
-    extra_hosts:
-      - 'localhost:host-gateway'
+      - '127.0.0.1:3033:3033'
     environment:
-      - TRIPLEADMIN_HOST=http://localhost:3030/
+      # Requests to Fuseki are proxied by the tripleadmin server, so it can use the internal hostname
+      - TRIPLEADMIN_HOST=http://fuseki:3030/
       - TRIPLEADMIN_USERNAME=admin
 
   # For Promotheus monitoring
@@ -158,7 +162,7 @@ services:
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
     ports:
-      - 8090:8080
+      - '127.0.0.1:8090:8080'
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw
