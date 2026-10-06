@@ -43,9 +43,10 @@ services:
       - '127.0.0.1:3030:3030'
     expose:
       - '3030'
-    # Docker 28+ gives containers a huge nofile limit, which old JVMs fail to allocate
+    # Docker 28+ gives containers a huge nofile limit, which old JVMs fail to allocate.
+    # Fuseki keeps ~30 files open per dataset (3 datasets per Pod): don't go much lower.
     ulimits:
-      nofile: 65536
+      nofile: 1048576
     environment:
       ADMIN_PASSWORD: ${FUSEKI_PASSWORD}
       # Leave empty to use the defaults described above (e.g. "-Xmx3g" to force a heap size)
