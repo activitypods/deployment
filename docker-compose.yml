@@ -97,6 +97,9 @@ services:
       VITE_CONFIG_URL: 'https://${BACKEND_DOMAIN_NAME}/.well-known/config.js'
       # Read instead of VITE_CONFIG_URL by the frontend of ActivityPods 2.2 and below
       REACT_APP_CONFIG_URL: 'https://${BACKEND_DOMAIN_NAME}/.well-known/config.js'
+      # Banner shown on every page of the frontend (ActivityPods 2.3.5+), e.g. during a maintenance.
+      # Set it in .env, then `docker compose up -d activitypods-frontend`
+      MAINTENANCE_MESSAGE: ${MAINTENANCE_MESSAGE:-}
 
   redis:
     image: redis
