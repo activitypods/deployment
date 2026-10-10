@@ -14,8 +14,10 @@ cd $SCRIPT_DIR
 docker compose down
 
 # Use the Fuseki service as defined in docker-compose.yml, so that the compaction runs with
-# the same image version, volume and memory limit as the triplestore itself
-docker compose run --rm --no-deps --entrypoint=/docker-compact-entrypoint.sh fuseki
+# the same image version, volume and memory limit as the triplestore itself.
+# compact-incremental.sh deletes the old generation of each dataset right after compacting it,
+# so it needs much less free space than the image's /docker-compact-entrypoint.sh
+docker compose run --rm --no-deps -v "$(pwd)/compact-incremental.sh:/compact.sh" --entrypoint=/compact.sh fuseki
 
 docker compose up -d
 
