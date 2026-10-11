@@ -69,6 +69,7 @@ services:
       - ./data/backend/jwt:/app/backend/jwt
       - ./data/backend/uploads:/app/backend/uploads
       - ./data/fuseki:/fuseki-data # Needed to allow the backend to access Fuseki data
+      - ${BACKUP_DIR:-./data/backups}:/backups # Where the nightly backups are copied (see .env.example)
     expose:
       - '3000'
     labels:
