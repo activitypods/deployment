@@ -30,7 +30,7 @@ services:
           - $BACKEND_DOMAIN_NAME
 
   fuseki:
-    image: semapps/jena-fuseki-webacl:${FUSEKI_VERSION:-v1.0.1}
+    image: semapps/jena-fuseki-webacl:${FUSEKI_VERSION:-v1.0.2}
     # Since v1.0.1 the JVM heap is sized from this limit (65% of it, the rest being
     # needed for the TDB2 memory-mapped files). Without a limit, the heap is sized
     # from the host memory and Fuseki can starve the other containers.
